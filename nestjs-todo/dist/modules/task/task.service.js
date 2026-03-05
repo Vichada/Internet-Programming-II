@@ -22,6 +22,9 @@ let TaskService = class TaskService {
     constructor(tasksRepo) {
         this.tasksRepo = tasksRepo;
     }
+    getAllTasks() {
+        return this.tasksRepo.find({ relations: ['user'] });
+    }
     getTask(id) {
         return this.tasksRepo.findOne({ where: { id }, relations: ['user'] });
     }

@@ -20,6 +20,9 @@ let TasksController = class TasksController {
     constructor(taskService) {
         this.taskService = taskService;
     }
+    getAllTasks() {
+        return this.taskService.getAllTasks();
+    }
     getTask(id) {
         return this.taskService.getTask(id);
     }
@@ -37,6 +40,12 @@ let TasksController = class TasksController {
     }
 };
 exports.TasksController = TasksController;
+__decorate([
+    (0, common_1.Get)('/'),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", void 0)
+], TasksController.prototype, "getAllTasks", null);
 __decorate([
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id', common_1.ParseIntPipe)),

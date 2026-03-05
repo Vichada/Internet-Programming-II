@@ -1,58 +1,50 @@
-import { defineStore } from 'pinia';
-import axios from 'axios';
+import { defineStore } from "pinia";
+import axios from "axios";
 
-export const useTodoStore = defineStore('todo', {
+export const useTodoStore = defineStore("todo", {
   state: () => ({
     todos: [],
-    countTodos: 0
   }),
+
+  getters: {
+    countTodos: (state) => state.todos.filter(t => t.completedAt == null).length,
+    countCompleted: (state) => state.todos.filter(t => t.completedAt != null).length,
+  },
 
   actions: {
     async fetchTodos() {
       try {
         const response = await axios.get('http://localhost:3100/tasks');
         this.todos = response.data;
-        this.countTodos = this.todos.filter(t => t.completedAt == null).length; // only pending
       } catch (error) {
         console.error('Failed to fetch todos:', error);
       }
     },
 
-    async addTodo(name) {
-      try {
-        await axios.post('http://localhost:3100/tasks', {
-          name: name,
-          user: { id: 1 }
-        });
-        await this.fetchTodos();
-      } catch (error) {
-        console.error('Failed to add todo:', error);
-      }
-    },
-
-    async toggleStatus(id) {
-      try {
-        const todo = this.todos.find(t => t.id === id);
-        if (todo.completedAt == null) {
-          await axios.patch(`http://localhost:3100/tasks/${id}/done`);
+    toggleStatus(id) {
+      const foundIndex = this.todos.findIndex((t) => t.id == id);
+      if (foundIndex >= 0) {
+        if (this.todos[foundIndex].completedAt != null) {
+          this.todos[foundIndex].completedAt = null;
         } else {
-          await axios.patch(`http://localhost:3100/tasks/${id}/pending`);
+          this.todos[foundIndex].completedAt = new Date().toISOString();
         }
-        await this.fetchTodos();
-      } catch (error) {
-        console.error('Failed to toggle status:', error);
       }
     },
 
-    async clearAll() {
-      try {
-        await Promise.all(
-          this.todos.map(todo => axios.delete(`http://localhost:3100/tasks/${todo.id}`))
-        );
-        await this.fetchTodos();
-      } catch (error) {
-        console.error('Failed to clear todos:', error);
-      }
-    }
-  }
+    addTodo(todo) {
+      this.todos.push({
+        id: this.todos.length + 1,
+        name: todo,
+        description: "description",
+        createdAt: new Date().toISOString(),
+        completedAt: null,
+      });
+      this.todos = JSON.parse(JSON.stringify(this.todos));
+    },
+
+    clearAll() {
+      this.todos = [];
+    },
+  },
 });

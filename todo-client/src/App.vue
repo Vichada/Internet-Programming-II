@@ -11,7 +11,8 @@
         >You have <span class="pending-num"> {{ nbOfTodo }} </span> tasks
         pending.</span
       >
-      <button class="clear-button" @click="clearAllTodos">Clear All</button>
+      <span>You have <span class="pending-num">{{ nbOfCompleted }}</span> tasks completed.</span>
+      <button class="clear-button" @click="clearAllTodos()">Clear All</button>
     </div>
   </div>
 </template>
@@ -36,6 +37,7 @@ export default {
   computed: {
     ...mapState(useTodoStore, {
       nbOfTodo: "countTodos",
+      nbOfCompleted: "countCompleted",
     }),
   },
   methods: {

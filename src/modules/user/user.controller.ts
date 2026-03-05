@@ -7,12 +7,12 @@ import {
   Patch,
   Delete,
 } from '@nestjs/common';
-import { UserService } from './user.service';
+import { UsersService } from './user.service';
 import { createUserDto } from './dto/create-user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UsersService) {}
 
   @Get('/:username')
   getUser(@Param('username') username: string) {
@@ -26,12 +26,13 @@ export class UsersController {
 
   @Patch('/:username')
   updateUser(
+    @Param('username') username: string,
     @Body() body: { username: string; email: string; password: string },
   ) {
-    return this.userService.updateUser(body);
+    return this.userService.updateUser(username, body);
   }
 
-  @Delete('/users/:username')
+  @Delete('/:username')
   deleteUser(@Param('username') username: string) {
     return this.userService.deleteUser(username);
   }

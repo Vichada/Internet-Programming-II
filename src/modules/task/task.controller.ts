@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {
   Body,
   Controller,
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
 } from '@nestjs/common';
@@ -14,26 +16,27 @@ export class TasksController {
   constructor(private readonly taskService: TaskService) {}
 
   @Get('/:id')
-  getTask(@Param('id') id: string) {
+  getTask(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.getTask(id);
   }
+
   @Post('/')
   createTask(@Body() body: any) {
     return this.taskService.createTask(body);
   }
 
   @Patch('/:id/done')
-  markTaskAsDone(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  markTaskAsDone(@Param('id', ParseIntPipe) id: number) {
+    return this.taskService.updateTask(id, { completedAt: new Date() });
   }
 
   @Patch('/:id/pending')
-  markTaskAsPending(@Body() body: any, @Param('id') id: string) {
-    return this.taskService.updateTask(id, body);
+  markTaskAsPending(@Param('id', ParseIntPipe) id: number) {
+    return this.taskService.updateTask(id, { completedAt: null });
   }
 
   @Delete('/:id')
-  deleteTask(@Param('id') id: string) {
+  deleteTask(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.deleteTask(id);
   }
 }

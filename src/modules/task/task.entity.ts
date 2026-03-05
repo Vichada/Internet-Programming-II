@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -17,7 +16,7 @@ export class Task {
   createdAt: Date;
 
   @Column({ type: 'datetime', nullable: true })
-  completedAt: Date;
+  completedAt: Date | null;
 
   @ManyToOne(() => User, (user) => user.tasks, { onDelete: 'CASCADE' })
   user: User;

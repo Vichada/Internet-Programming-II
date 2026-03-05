@@ -15,6 +15,11 @@ import { TaskService } from './task.service';
 export class TasksController {
   constructor(private readonly taskService: TaskService) {}
 
+  @Get('/')
+  getAllTasks() {
+    return this.taskService.getAllTasks();
+  }
+
   @Get('/:id')
   getTask(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.getTask(id);

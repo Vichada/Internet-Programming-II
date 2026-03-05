@@ -10,6 +10,10 @@ export class TaskService {
     private tasksRepo: Repository<Task>,
   ) {}
 
+  getAllTasks() {
+    return this.tasksRepo.find({ relations: ['user'] });
+  }
+
   getTask(id: number) {
     return this.tasksRepo.findOne({ where: { id }, relations: ['user'] });
   }

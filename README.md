@@ -31,6 +31,25 @@
 $ npm install
 ```
 
+## Environment configuration
+
+Create a local `.env` file based on `.env.example` and set your PostgreSQL credentials.
+
+Required variables:
+
+- `DB_HOST`
+- `DB_PORT`
+- `DB_USER`
+- `DB_PASSWORD`
+- `DB_NAME`
+
+Or provide a single `DATABASE_URL` value.
+
+Optional:
+
+- `API_KEY` to protect `/receipts` routes with `x-api-key` header
+- `PORT` for server port (default is `3000`)
+
 ## Compile and run the project
 
 ```bash

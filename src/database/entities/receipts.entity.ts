@@ -1,11 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Receipt {
   @PrimaryGeneratedColumn('uuid')
   receiptId: string;
 
-  @Column()
+  @CreateDateColumn()
   issuedAt: Date;
 
   @Column()

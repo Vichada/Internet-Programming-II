@@ -24,7 +24,7 @@ export class ReceiptsService {
 
   async create(dto: CreateReceiptDto) {
     const receipt = this.receiptRepo.create({
-      issuedAt: new Date(dto.issuedAt),
+      // issuedAt: new Date(dto.issuedAt),
       name: dto.name,
       price: dto.price,
     });
@@ -45,5 +45,10 @@ export class ReceiptsService {
     const receipt = await this.findOne(receiptId);
     await this.receiptRepo.remove(receipt);
     return { deleted: true, receiptId };
+  }
+
+  async removeAll() {
+    await this.receiptRepo.clear();
+    return { deleted: true, all: true };
   }
 }

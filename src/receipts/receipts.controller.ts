@@ -42,4 +42,9 @@ export class ReceiptsController {
   remove(@Param('id') id: string) {
     return this.receiptsService.remove(id);
   }
+
+  @Delete()
+  removeAll() {
+    return this.receiptsService.removeAll();
+  }
 }

@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity('receipts')
 export class Receipt {
   @PrimaryGeneratedColumn('uuid')
   receiptId: string;
@@ -11,6 +11,6 @@ export class Receipt {
   @Column()
   name: string;
 
-  @Column('float')
+  @Column('decimal', { precision: 10, scale: 2 })
   price: number;
 }

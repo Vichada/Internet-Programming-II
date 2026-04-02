@@ -1,16 +1,26 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 import { NotificationsService } from 'src/notifications/notifications.service';
 
 @Injectable()
 export class OrdersService {
-  constructor(private readonly notifications: NotificationsService) {}
-}
+  constructor(
+    @Inject('ORDERS_SERVICE') private client: ClientProxy, //microservice client
+    @Inject(forwardRef(() => NotificationsService))
+    private readonly notifications: NotificationsService, // DI
+  ) {}
 
-import { Injectable } from '@nestjs/common';
-import { NotificationsService } from 'src/notifications/notifications.service';
+  createOrder(orderDto: any) {
+    this.client.emit('order_created', {
+      order: orderDto,
+      createdAt: new Date().toISOString(),
+    });
 
-@Injectable()
-export class OrdersService {
-  constructor(private readonly notifications: NotificationsService) {}
+    this.notifications.notify('order_created', {
+      order: orderDto,
+    });
 
+    return { status: 'Order accepted', order: orderDto };
+  }
 }

@@ -4,9 +4,10 @@ import { Receipt } from '../database/entities/receipts.entity';
 import { ReceiptsController } from './receipts.controller';
 import { ReceiptsService } from './receipts.service';
 import { ApiKeyGuard } from '../common/guards/api-key.guard';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Receipt])],
+  imports: [TypeOrmModule.forFeature([Receipt]), NotificationsModule],
   controllers: [ReceiptsController],
   providers: [ReceiptsService, ApiKeyGuard],
 })

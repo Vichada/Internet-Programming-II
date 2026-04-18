@@ -1,0 +1,42 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Receipt {
+  receiptId: ID!
+  issuedAt: DateTime!
+  name: String!
+  price: Float!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type OrderType {
+  id: ID!
+  product: String!
+  quantity: Int!
+}
+
+type Query {
+  orders: [OrderType!]!
+  receipts: [Receipt!]!
+}
+
+type Mutation {
+  createOrder(input: CreateOrderInput!): OrderType!
+  createReceipt(input: CreateReceiptInput!): Receipt!
+}
+
+input CreateOrderInput {
+  product: String!
+  quantity: Int!
+}
+
+input CreateReceiptInput {
+  name: String!
+  price: Float!
+  issuedAt: String!
+}

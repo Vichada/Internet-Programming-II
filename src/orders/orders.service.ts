@@ -1,22 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { NotificationsService } from 'src/notifications/notifications.service';
-
-type Order = {
-  id: string;
-  product: string;
-  quantity: number;
-};
+import { CreateOrderInput } from '../graphql/inputs/create-order.input';
+import { OrderType } from '../graphql/types/order.type';
 
 @Injectable()
 export class OrdersService {
-  private orders: Order[] = [];
+  private orders: OrderType[] = [];
 
   constructor(
     private readonly notifications: NotificationsService,
   ) {}
 
-  createOrder(orderDto: any) {
-    const order: Order = {
+  createOrder(orderDto: CreateOrderInput) {
+    const order: OrderType = {
       id: Date.now().toString(),
       product: orderDto.product,
       quantity: orderDto.quantity,

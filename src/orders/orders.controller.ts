@@ -6,7 +6,8 @@ export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
   @Post()
-  create(@Body() orderDto: Record<string, unknown>) {
+  // create(@Body() orderDto: Record<string, unknown>) {
+  create(@Body() orderDto: any) {
     return this.ordersService.createOrder(orderDto);
   }
 }

@@ -7,6 +7,7 @@ import { RecieptsModule } from './reciepts/reciepts.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { OrdersModule } from './orders/orders.module';
 import { CoreModule } from './core/core.module';
+import { GraphqlModule } from './graphql/graphql.module';
 
 import { Receipt } from './database/entities/receipts.entity';
 
@@ -29,10 +30,12 @@ import { join } from 'path';
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      typePaths: [join(process.cwd(), 'src/graphql/schema/*.graphql')],
+      // typePaths: [join(process.cwd(), 'src/graphql/schema/*.graphql')],
+      autoSchemaFile: join(process.cwd(), 'src/graphql/schema.gql'),
       playground: true,
     }),
 
+    GraphqlModule,
     RecieptsModule,
     NotificationsModule,
     OrdersModule,

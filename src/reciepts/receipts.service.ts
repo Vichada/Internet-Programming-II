@@ -6,6 +6,11 @@ import { CreateReceiptDto } from './dto/create-receipt.dto';
 import { UpdateReceiptDto } from './dto/update-receipt.dto';
 import { NotificationsService } from 'src/notifications/notifications.service';
 
+const mapReceipt = (receipt: Receipt) => ({
+  ...receipt,
+  price: Number(receipt.price),
+});
+
 @Injectable()
 export class ReceiptsService {
   constructor(
@@ -15,13 +20,14 @@ export class ReceiptsService {
   ) {}
 
   async findAll() {
-    return this.receiptRepo.find({ order: { issuedAt: 'DESC' } });
+    const receipts = await this.receiptRepo.find({ order: { issuedAt: 'DESC' } });
+    return receipts.map(mapReceipt);
   }
 
   async findOne(receiptId: string) {
     const receipt = await this.receiptRepo.findOne({ where: { receiptId } });
     if (!receipt) throw new NotFoundException('Receipt not found');
-    return receipt;
+    return mapReceipt(receipt);
   }
 
   async create(dto: CreateReceiptDto) {
@@ -37,7 +43,7 @@ export class ReceiptsService {
       price: saved.price,
     });
 
-    return saved;
+    return mapReceipt(saved);
   }
 
   async update(receiptId: string, dto: UpdateReceiptDto) {
@@ -47,7 +53,8 @@ export class ReceiptsService {
     if (dto.name !== undefined) receipt.name = dto.name;
     if (dto.price !== undefined) receipt.price = dto.price;
 
-    return this.receiptRepo.save(receipt);
+    const saved = await this.receiptRepo.save(receipt);
+    return mapReceipt(saved);
   }
 
   async remove(receiptId: string) {

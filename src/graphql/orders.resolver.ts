@@ -1,7 +1,9 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { OrdersService } from '../orders/orders.service';
+import { OrderType } from './types/order.type';
 
-@Resolver('Order')
+//@Resolver('Order')
+@Resolver(() => OrderType)
 export class OrdersResolver {
   constructor(private readonly ordersService: OrdersService) {}
 
